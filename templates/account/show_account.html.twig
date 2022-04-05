@@ -66,7 +66,20 @@
 
                         {# TBODY DU TABLEAU #}
                         <tbody>
-                
+
+                            {% for command in commands %}
+                                <tr>
+                                    <td> {{ command.id}} </td>
+                                    <td> {{ command.user.id}} - {{ command.user.firstname}} {{ command.user.lastname}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+
                         </tbody>
                 
                 
