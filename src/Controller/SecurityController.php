@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\User;
 use App\Form\RegisterType;
+use DateTime;
 
 class SecurityController extends AbstractController
 {
@@ -48,8 +49,32 @@ class SecurityController extends AbstractController
 
         $form = $this->createForm(RegisterType::class, $user)->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()){
+
+            // Set des propriétés qui ne sont pas dans le formulaire
+            $user->setCreatedAt(new DateTime());
+            $user->setUpdatedAt(new DateTime());
+            $user->setRoles(['ROLE_USER']);
+
+            //Nous devons setter manuellement le hash du password grâce au password hasher et sa méthode hashPassword(). Cette méthode prend deux paramètres : $user, $plainPassword
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user, $form->get('password')->getData()
+                )
+            );
+
+            //On envoie tout en bdd grâce à notre entity manager
+            $entityManager->persist($user);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'Votre inscription est validée. Vous pouvez vous connecter');
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('security/form_register.html.twig', [
             'form' => $form->createView(),
         ]);
+
+
     }
 }
