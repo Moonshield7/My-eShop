@@ -47,8 +47,9 @@
                                 {% set produit = command.products | first %}
                                 <tr>
                                     <td> {{ command.id}} </td>
-                                    <td> {{ command.user.id}} - {{ command.user.firstname}} {{ command.user.lastname}}</td>
-                                    <td> {{ produit.id }} - {{ produit.title }} </td>
+                                    <td> {{ command.user.id}} - {{ command.user.firstname}} {{ command.user.lastname}} - {{ command.user.email}}</td>
+                                    {# <td> {{ produit.id }} - {{ produit.title }} </td> #}
+                                    <td></td>
                                     <td> {{ command.quantity}} </td>
                                     <td> {{ command.total}} </td>
                                     <td> {{ command.state }} </td>

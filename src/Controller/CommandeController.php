@@ -56,6 +56,32 @@ class CommandeController extends AbstractController
 
     }
 
+    /**
+     * @Route("/resautrer-une-commande/{id}", name="restore_commande", methods={"GET"})
+     */
+    public function restoreCommande(Commande $commande, EntityManagerInterface $entityManager): Response{
+        $commande->setDeletedAt(null);
+        $commande->setState("En cours");
+
+        $entityManager->persist($commande);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show_canceled_commandes');
+    }
+
+        /**
+     * @Route("/supprimer-une-commande/{id}", name="hard_delete_commande", methods={"GET"})
+     */
+    public function hardDeleteCommande(Commande $commande, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($commande);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La commande a bien été supprimée');
+        return $this->redirectToRoute('show_canceled_commandes');
+    }
+
+
 }
 
 
