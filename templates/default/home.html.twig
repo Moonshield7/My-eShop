@@ -7,6 +7,12 @@
     <h1 class="text-center my-3">Bienvenue sur la boutique en ligne</h1>
 
     <div class="row col-12 justify-content-center">
+        <div class="col-10">
+            {% include 'include/_flashes.html.twig' %}
+        </div>
+    </div>
+
+    <div class="row col-12 justify-content-center">
 
         {% for produit in produits %}
             <div class="col-3 mx-2 my-2">
@@ -15,7 +21,7 @@
                     <div class="card-body">
                         <h5 class="card-title"> {{ produit.title}} </h5>
                         <p class="card-text">{{ produit.description | length > 30 ? produit.description | slice(0, 30) ~ '...' : produit.description }}</p>
-                        <a href="#" class="col-12 btn btn-warning mx-auto text-center"> <i class="fa-solid fa-cart-plus"></i>     Ajouter au panier</a>
+                        <a href=" {{path('panier_add', {'id': produit.id})}} " class="col-12 btn btn-warning mx-auto text-center"> <i class="fa-solid fa-cart-plus"></i>     Ajouter au panier</a>
                     </div>
                 </div>
             </div>
